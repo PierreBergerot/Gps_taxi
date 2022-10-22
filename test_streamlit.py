@@ -1,3 +1,4 @@
+from optparse import Option
 import streamlit as st
 import pandas as pd
 import numpy as np
@@ -129,26 +130,44 @@ def plotly(df):
     fig.update_layout(clickmode='event+select')
     return fig
 
+@st.cache
+def heatmap(df):
+    df = df.sample(frac=0.50)
+    fig = px.density_mapbox(df, lat='latitude', lon='longitude', z='diff', radius=10,zoom=12, mapbox_style="stamen-terrain")
+    fig.update_layout(margin={"r":0,"t":0,"l":0,"b":0})
+    return fig
+
+def slider_checkbox():
+    option = st.sidebar.selectbox(
+        'Choose between 2 option',
+        ('densite', 'GPS'))
+    return option
+
 def main():
-    st.write("nous allons vous montrer le trajet le plus rapide entre deux points")
     df = read_clean_data()
+
+    Option =slider_checkbox()
+    if Option == 'densite':
+        st.write("Densite")
+        st.plotly_chart(heatmap(df))
+    else:
+        st.write("nous allons vous montrer le trajet le plus rapide entre deux points")
+        fig = plotly(df)
+        st.plotly_chart(fig)
     
-    fig = plotly(df)
-    st.plotly_chart(fig)
-    
-    st.write("veuillez selectionner deux points")
-    start_lat = st.text_input("start lat point")
-    start_lon = st.text_input("start long point")
-    start = start_lon + ' ' + start_lat
-    start = str(start)
-    end_lat = st.text_input("end lat point")
-    end_lon = st.text_input("end long point")
-    end = end_lon + ' ' + end_lat
-    end = str(end)
-    button = st.button("calculer le trajet le plus rapide")
-    if button:
-        df_connect = connect_two_point(df)
-        time, df_path = all_thing(df_connect,start,end)
-        st.write("le temps de trajet est de",time)
-        st.map(df_path)
+        st.write("veuillez selectionner deux points")
+        start_lat = st.text_input("start lat point")
+        start_lon = st.text_input("start long point")
+        start = start_lon + ' ' + start_lat
+        start = str(start)
+        end_lat = st.text_input("end lat point")
+        end_lon = st.text_input("end long point")
+        end = end_lon + ' ' + end_lat
+        end = str(end)
+        button = st.button("calculer le trajet le plus rapide")
+        if button:
+            df_connect = connect_two_point(df)
+            time, df_path = all_thing(df_connect,start,end)
+            st.write("le temps de trajet est de",time)
+            st.map(df_path)
 main()
