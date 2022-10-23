@@ -124,22 +124,7 @@ def plotly(df):
     fig.update_layout(margin={"r":0,"t":0,"l":0,"b":0})
     fig.update_traces(mode='markers')
     fig.update_layout(clickmode='event+select')
-    create_callback_in_a_map(fig)
     return fig
-
-
-def create_callback_in_a_map(fig):
-    scatter = fig.data[0]
-    def callback(trace, points, selector):
-        for i in points.point_inds:
-            with fig.batch_update():
-                fig.add_trace(px.scatter_mapbox(
-                    mode="markers",
-                    lon=[scatter.lon[i]],
-                    lat=[scatter.lat[i]],
-                    marker={'size': 20, 'color': 'red'},
-                    ))          
-    scatter.on_click(callback)
 
     
 @st.cache
@@ -179,7 +164,7 @@ def main():
         button = st.button("calculer le trajet le plus rapide")
         if button:
             df_connect = connect_two_point(df)
-            time, df_path = all_thing(df_connect,start,end)
+            time, df_path = all_thing(df_connect,'116.3596 39.9238','116.3596 39.9238')
             st.write("le temps de trajet est de",time)
             st.map(df_path)
 main()
