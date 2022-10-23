@@ -2,7 +2,6 @@ import streamlit as st
 import pandas as pd
 import heapq
 import plotly.express as px
-import plotly.graph_objects as go
 
 @st.cache
 def read_clean_data():
@@ -135,7 +134,7 @@ def create_callback_in_a_map(fig):
     def callback(trace, points, selector):
         for i in points.point_inds:
             with fig.batch_update():
-                fig.add_trace(go.Scattermapbox(
+                fig.add_trace(px.scatter_mapbox(
                     mode="markers",
                     lon=[scatter.lon[i]],
                     lat=[scatter.lat[i]],
