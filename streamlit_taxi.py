@@ -134,6 +134,7 @@ def all_thing(df_connect,start,end):
 
 @st.cache
 def plotly(df):
+    df = df.sample(frac=0.50)
     fig = px.line_mapbox(df, lat="latitude", lon="longitude", zoom=12, height=1000)
     fig.update_layout(mapbox_style="stamen-terrain")
     fig.update_layout(margin={"r":0,"t":0,"l":0,"b":0})
