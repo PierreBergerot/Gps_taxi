@@ -21,8 +21,6 @@ def read_clean_data():
     df = df[(df['longitude']>=116.215140) & (df['longitude']<=116.586700) & (df['latitude']>=39.757610) & (df['latitude']<=40.079850)]
     df = df.reset_index(drop=True)
     df['diff'] = df['date time'].diff()
-    df = df[df['diff']>=pd.Timedelta(seconds=1)]
-    df = df[df['diff']<=pd.Timedelta(minutes=5)]
     df = df.reset_index(drop=True)
 
     return df
