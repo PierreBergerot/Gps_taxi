@@ -135,8 +135,7 @@ def all_thing(df_connect,start,end):
 @st.cache
 def plotly(df):
     df = df.sample(frac=0.25)
-    fig = px.line_mapbox(df, lat="latitude_a", lon="longitude_a", hover_name="point_a", hover_data=["point_b"],
-                         color_discrete_sequence=["fuchsia"], zoom=10, height=300)
+    fig = px.line_mapbox(df, lat="latitude_a", lon="longitude_a", zoom=10, height=300)
     fig.update_layout(mapbox_style="stamen-terrain")
     fig.update_layout(margin={"r":0,"t":0,"l":0,"b":0})
     fig.update_traces(mode='markers')
