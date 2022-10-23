@@ -42,6 +42,7 @@ def connect_two_point(df):
     df_connect = df_connect.dropna()
     df_connect = df_connect.reset_index(drop=True)
     df_connect = df_connect.groupby(['longitude_a', 'latitude_a', 'longitude_b', 'latitude_b'])['diff'].mean().reset_index()
+    df_connect['diff'] = df_connect['diff'].apply(lambda x: x.total_seconds())
     return df_connect
 
 def create_adjency_list(df_adjency):
@@ -53,7 +54,7 @@ def create_adjency_list(df_adjency):
     for index, row in df_adjency.iterrows():
         if row['point_a'] not in adjacency_list:
             adjacency_list[row['point_a']] = []
-        adjacency_list[row['point_a']].append((row['point_b'], row['diff']).total_seconds())
+        adjacency_list[row['point_a']].append((row['point_b'], row['diff']))
 
     return adjacency_list
 
