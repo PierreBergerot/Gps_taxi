@@ -126,6 +126,7 @@ def plotly(df):
     fig.update_layout(margin={"r":0,"t":0,"l":0,"b":0})
     fig.update_traces(mode='markers')
     fig.update_layout(clickmode='event+select')
+    create_callback_in_a_map(fig)
     return fig
 
 
@@ -139,10 +140,6 @@ def create_callback_in_a_map(fig):
             st.write('longitude: ', longitude)
             st.write('latitude: ', latitude)
     
-
-
-
-
 @st.cache
 def heatmap(df):
     df = df.sample(frac=0.50)
