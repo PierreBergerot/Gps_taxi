@@ -53,7 +53,7 @@ def create_adjency_list(df_adjency):
     for index, row in df_adjency.iterrows():
         if row['point_a'] not in adjacency_list:
             adjacency_list[row['point_a']] = []
-        adjacency_list[row['point_a']].append((row['point_b'], row['diff']))
+        adjacency_list[row['point_a']].append((row['point_b'], row['diff']).total_seconds())
 
     return adjacency_list
 
