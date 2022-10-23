@@ -196,7 +196,6 @@ def main():
         if button:
             df_all_path = add_reverse(df)
             reduce_df_all_path = reduce_df(df_all_path,float(start_lat),float(start_lon),float(end_lat),float(end_lon))
-            st.map(reduce_df_all_path)
             df_connect = connect_two_point(reduce_df_all_path)
             time, df_path = all_thing(df_connect,start,end)
             st.write("le temps de trajet est de",time)
