@@ -7,7 +7,7 @@ import plotly.express as px
 def read_clean_data():
     colum_names=['taxi id', 'date time', 'longitude', 'latitude']
 
-    taxi_id = [6275,3015,3557,3579,8179]
+    taxi_id = [6275,3015,3557,3579,8179,366,2560,8717]
     df = pd.DataFrame(columns=colum_names)
     for i in range(len(taxi_id)):
         df_15 = pd.read_csv('taxi_log_2008_by_id/'+str(taxi_id[i])+'.txt', names=colum_names)
