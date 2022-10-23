@@ -35,14 +35,14 @@ def add_reverse(df):
 def reduce_df(df,start_lat,start_lon,end_lat,end_lon):
     if start_lat>end_lat:
         if start_lon>end_lon:
-            df = df[(df['latitude']>=(end_lat - 0.001)) & (df['latitude']<=(start_lat + 0.001)) & (df['longitude']>=(end_lon - 0.001)) & (df['longitude']<=(start_lon + 0.001))]
+            df = df[(df['latitude']>=(end_lat - 0.01)) & (df['latitude']<=(start_lat + 0.01)) & (df['longitude']>=(end_lon - 0.01)) & (df['longitude']<=(start_lon + 0.01))]
         else:
-            df = df[(df['latitude']>=(end_lat - 0.001)) & (df['latitude']<=(start_lat + 0.001)) & (df['longitude']>=(start_lon - 0.001)) & (df['longitude']<=(end_lon + 0.001))]
+            df = df[(df['latitude']>=(end_lat - 0.01)) & (df['latitude']<=(start_lat + 0.01)) & (df['longitude']>=(start_lon - 0.01)) & (df['longitude']<=(end_lon + 0.01))]
     else:
         if start_lon>end_lon:
-            df = df[(df['latitude']>=(start_lat - 0.001)) & (df['latitude']<=(end_lat + 0.001)) & (df['longitude']>=(end_lon - 0.001)) & (df['longitude']<=(start_lon + 0.001))]
+            df = df[(df['latitude']>=(start_lat - 0.01)) & (df['latitude']<=(end_lat + 0.01)) & (df['longitude']>=(end_lon - 0.01)) & (df['longitude']<=(start_lon + 0.01))]
         else:
-            df = df[(df['latitude']>=(start_lat - 0.001)) & (df['latitude']<=(end_lat + 0.001)) & (df['longitude']>=(start_lon - 0.001)) & (df['longitude']<=(end_lon + 0.001))]
+            df = df[(df['latitude']>=(start_lat - 0.01)) & (df['latitude']<=(end_lat + 0.01)) & (df['longitude']>=(start_lon - 0.01)) & (df['longitude']<=(end_lon + 0.01))]
     return df
 
 
@@ -134,7 +134,6 @@ def usable_data(df_path,df_connect):
 
 def all_thing(df_connect,start,end):
     adjacency_list = create_adjency_list(df_connect)
-    st.write(adjacency_list)
     path = find_path(adjacency_list, start, end)
     df_path = to_df(path)
     df_usable = usable_data(df_path,df_connect)
@@ -190,7 +189,6 @@ def main():
         if button:
             df_all_path = add_reverse(df)
             reduce_df_all_path = reduce_df(df_all_path,float(start_lat),float(start_lon),float(end_lat),float(end_lon))
-            st.write(len(reduce_df_all_path))
             st.map(reduce_df_all_path)
             df_connect = connect_two_point(reduce_df_all_path)
             time, df_path = all_thing(df_connect,start,end)
