@@ -192,7 +192,7 @@ def main():
             st.write(len(df_all_path))
             reduce_df_all_path = reduce_df(df,float(start_lat),float(start_lon),float(end_lat),float(end_lon))
             df_connect = connect_two_point(reduce_df_all_path)
-            time, df_path = all_thing(df_connect,'116.3991 39.85997',end)
+            time, df_path = all_thing(df_connect,start,end)
             st.write("le temps de trajet est de",time)
             st.map(df_path)
 main()
