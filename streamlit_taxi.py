@@ -164,7 +164,7 @@ def main():
         button = st.button("calculer le trajet le plus rapide")
         if button:
             df_connect = connect_two_point(df)
-            time, df_path = all_thing(df_connect,start,end)
+            time, df_path = all_thing(df_connect,'116.3991 39.85997',end)
             st.write("le temps de trajet est de",time)
             st.map(df_path)
 main()
