@@ -134,8 +134,6 @@ def all_thing(df_connect,start,end):
 
 @st.cache
 def plotly(df):
-    df = df.rename(columns={'longitude_a': 'longitude'})
-    df = df.rename(columns={'latitude_a': 'latitude'})
     fig = px.line_mapbox(df, lat="latitude", lon="longitude", zoom=12, height=1000)
     fig.update_layout(mapbox_style="stamen-terrain")
     fig.update_layout(margin={"r":0,"t":0,"l":0,"b":0})
@@ -167,7 +165,7 @@ def main():
         st.write("nous allons vous montrer le trajet le plus rapide entre deux points")
         df_all = switch_lon_lat_df(df)
         df_connect = connect_two_point(df_all)
-        fig = plotly(df_connect)
+        fig = plotly(df)
         st.plotly_chart(fig)
     
         st.write("veuillez selectionner deux points")
