@@ -2,6 +2,7 @@ import streamlit as st
 import pandas as pd
 import heapq
 import plotly.express as px
+import plotly.graph_objects as go
 
 @st.cache
 def read_clean_data():
@@ -126,6 +127,21 @@ def plotly(df):
     fig.update_traces(mode='markers')
     fig.update_layout(clickmode='event+select')
     return fig
+
+
+def create_callback_in_a_map(fig):
+    scatter = fig.data[0]
+    def callback(trace, points, selector):
+        if points.point_inds:
+            point_ind = points.point_inds[0]
+            longitude = scatter.lon[point_ind]
+            latitude = scatter.lat[point_ind]
+            st.write('longitude: ', longitude)
+            st.write('latitude: ', latitude)
+    
+
+
+
 
 @st.cache
 def heatmap(df):
