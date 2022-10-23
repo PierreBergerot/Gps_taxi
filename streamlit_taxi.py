@@ -26,13 +26,6 @@ def read_clean_data():
 
     return df
 
-def switch_lon_lat_df(df):
-    df1 = df.copy()
-    df1['longitude'], df1['latitude'] = df1['latitude'], df1['longitude']
-    df = pd.concat([df, df1], axis=0)
-    df = df.reset_index(drop=True)
-    return df
-
 def connect_two_point(df):
     df_connect = df[['longitude', 'latitude']].copy()
     df_connect.columns = ['longitude_a', 'latitude_a']
@@ -43,6 +36,22 @@ def connect_two_point(df):
     df_connect = df_connect.reset_index(drop=True)
     df_connect = df_connect.groupby(['longitude_a', 'latitude_a', 'longitude_b', 'latitude_b'])['diff'].mean().reset_index()
     df_connect['diff'] = df_connect['diff'].apply(lambda x: x.total_seconds())
+    df_connect['distance'] = ((df_connect['longitude_a']-df_connect['longitude_b'])**2 + (df_connect['latitude_a']-df_connect['latitude_b'])**2)**0.5
+    df_connect = df_connect[df_connect['diff']>=df_connect['distance']]
+    df_connect = df_connect.drop(['distance'], axis=1)
+    df_connect = df_connect.reset_index(drop=True)
+
+    df_connect_2 = df_connect.copy()
+    df_connect_2.columns = ['longitude_a', 'latitude_a', 'longitude_b', 'latitude_b', 'diff']
+    df_connect_2['longitude_a'] = df_connect['longitude_b']
+    df_connect_2['latitude_a'] = df_connect['latitude_b']
+    df_connect_2['longitude_b'] = df_connect['longitude_a']
+    df_connect_2['latitude_b'] = df_connect['latitude_a']
+    df_connect_2['diff'] = df_connect['diff']
+    df_connect = pd.concat([df_connect, df_connect_2], axis=0)
+    df_connect = df_connect.drop_duplicates()
+    df_connect = df_connect.reset_index(drop=True)
+
     return df_connect
 
 def create_adjency_list(df_adjency):
@@ -130,8 +139,9 @@ def all_thing(df_connect,start,end):
 
 @st.cache
 def plotly(df):
+
     df = df.sample(frac=0.50)
-    fig = px.line_mapbox(df, lat="latitude", lon="longitude", zoom=12, height=1000)
+    fig = px.line_mapbox(df, lat="latitude_a", lon="longitude_a", zoom=12, height=1000)
     fig.update_layout(mapbox_style="stamen-terrain")
     fig.update_layout(margin={"r":0,"t":0,"l":0,"b":0})
     fig.update_traces(mode='markers')
@@ -160,8 +170,7 @@ def main():
         st.plotly_chart(heatmap(df))
     else:
         st.write("nous allons vous montrer le trajet le plus rapide entre deux points")
-        df_all = switch_lon_lat_df(df)
-        df_connect = connect_two_point(df_all)
+        df_connect = connect_two_point(df)
         fig = plotly(df)
         st.plotly_chart(fig)
     
