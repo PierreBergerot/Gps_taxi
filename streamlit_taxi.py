@@ -39,7 +39,7 @@ def connect_two_point(df):
     df_connect['diff'] = df_connect['diff'].apply(lambda x: x.total_seconds())
     df_connect['distance'] = ((df_connect['longitude_a']-df_connect['longitude_b'])**2 + (df_connect['latitude_a']-df_connect['latitude_b'])**2)**0.5
     df_connect['speed'] = df_connect['distance']/df_connect['diff']
-    df_connect = df_connect[df_connect['speed']<=50]
+    df_connect = df_connect[df_connect['speed']<=20]
     df_connect = df_connect.drop(['distance','speed'], axis=1)
     df_connect = df_connect.reset_index(drop=True)
 
