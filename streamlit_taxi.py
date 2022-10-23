@@ -9,7 +9,7 @@ def read_clean_data():
 
     taxi_id = [6275,3015,3557,3579,8179,366,2560,8717]
     df = pd.DataFrame(columns=colum_names)
-    for i in range(len(10357)):
+    for i in range(1,10357):
         df_15 = pd.read_csv('taxi_log_2008_by_id/'+str(taxi_id[i])+'.txt', names=colum_names)
         df = pd.concat([df, df_15], axis=0)
     df = df.drop_duplicates()
