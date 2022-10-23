@@ -9,7 +9,7 @@ def read_clean_data():
 
     taxi_id = [6275,3015,3557,3579,8179,366,2560,8717]
     df = pd.DataFrame(columns=colum_names)
-    for i in range(len(taxi_id)):
+    for i in range(len(10357)):
         df_15 = pd.read_csv('taxi_log_2008_by_id/'+str(taxi_id[i])+'.txt', names=colum_names)
         df = pd.concat([df, df_15], axis=0)
     df = df.drop_duplicates()
@@ -71,7 +71,6 @@ def find_path(adjacency_list, start, end):
                     came_from[next[0]] = current
 
         return came_from, cost_so_far
-    
     came_from, cost_so_far = a_star(adjacency_list, start, end)
     path = []
     current = end
