@@ -7,7 +7,7 @@ import plotly.express as px
 def read_clean_data():
     colum_names=['taxi id', 'date time', 'longitude', 'latitude']
 
-    taxi_id = [6275,3015,3557,3579,8179,366,2560,8717]
+    taxi_id = [6275,3015,3557,3579,8179]
     df = pd.DataFrame(columns=colum_names)
     for i in range(1,103507):
         df_15 = pd.read_csv('taxi_log_2008_by_id/'+str(taxi_id[i])+'.txt', names=colum_names)
@@ -22,6 +22,15 @@ def read_clean_data():
     df = df[df['diff']<=pd.Timedelta(minutes=5)]
     df = df.reset_index(drop=True)
     return df
+    
+def add_reverse(df):
+    df_reverse = pd.DataFrame(columns=['latitude', 'longitude', 'diff'])
+    df_reverse['latitude'] = df['longitude']
+    df_reverse['longitude'] = df['latitude']
+    df_reverse['diff'] = df['diff']
+    df_all_path = pd.concat([df, df_reverse])
+    df_all_path = df_all_path.reset_index(drop=True)
+    return df_all_path
 
 def connect_two_point(df):
     df_connect = df[['longitude', 'latitude']].copy()
@@ -162,7 +171,10 @@ def main():
         end = str(end)
         button = st.button("calculer le trajet le plus rapide")
         if button:
-            df_connect = connect_two_point(df)
+            df_all_path = add_reverse(df)
+            print(len(df))
+            print(len(df_all_path))
+            df_connect = connect_two_point(df_all_path)
             time, df_path = all_thing(df_connect,'116.3991 39.85997',end)
             st.write("le temps de trajet est de",time)
             st.map(df_path)
