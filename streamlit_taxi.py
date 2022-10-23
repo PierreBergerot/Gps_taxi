@@ -8,7 +8,7 @@ def read_clean_data():
     colum_names=['taxi id', 'date time', 'longitude', 'latitude']
 
     df = pd.DataFrame(columns=colum_names)
-    for i in range(1,103507):
+    for i in range(1,10357):
         df_15 = pd.read_csv('taxi_log_2008_by_id/'+str(i)+'.txt', names=colum_names)
         df = pd.concat([df, df_15], axis=0)
     df = df.drop_duplicates()
