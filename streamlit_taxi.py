@@ -21,6 +21,10 @@ def read_clean_data():
     df = df[df['diff']>=pd.Timedelta(seconds=1)]
     df = df[df['diff']<=pd.Timedelta(minutes=5)]
     df = df.reset_index(drop=True)
+    """round latitude and longitude"""
+    df['longitude'] = df['longitude'].apply(lambda x: round(x, 4))
+    df['latitude'] = df['latitude'].apply(lambda x: round(x, 4))
+
     return df
 
 def connect_two_point(df):
