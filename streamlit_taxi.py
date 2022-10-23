@@ -75,7 +75,6 @@ def create_adjency_list(df_adjency):
         if row['point_a'] not in adjacency_list:
             adjacency_list[row['point_a']] = []
         adjacency_list[row['point_a']].append((row['point_b'], row['diff'].total_seconds()))
-    st.write (adjacency_list)
     return adjacency_list
 
 def find_path(adjacency_list, start, end):
@@ -141,6 +140,7 @@ def usable_data(df_path,df_connect):
 
 def all_thing(df_connect,start,end):
     adjacency_list = create_adjency_list(df_connect)
+    st.write (adjacency_list)
     path = find_path(adjacency_list, start, end)
     df_path = to_df(path)
     df_usable = usable_data(df_path,df_connect)
