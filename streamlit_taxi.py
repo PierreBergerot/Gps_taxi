@@ -35,6 +35,8 @@ def connect_two_point(df):
     df_connect = df_connect.dropna()
     df_connect = df_connect.reset_index(drop=True)
     df_connect = df_connect.groupby(['longitude_a', 'latitude_a', 'longitude_b', 'latitude_b'])['diff'].mean().reset_index()
+
+    df_connect['diff'] = df_connect['diff'].dt.total_seconds()
     
     df_connect['distance'] = ((df_connect['longitude_a']-df_connect['longitude_b'])**2 + (df_connect['latitude_a']-df_connect['latitude_b'])**2)**0.5
     df_connect = df_connect[df_connect['distance']<=0.01]
