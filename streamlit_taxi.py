@@ -21,8 +21,9 @@ def read_clean_data():
     df = df[df['diff']>=pd.Timedelta(seconds=1)]
     df = df[df['diff']<=pd.Timedelta(minutes=5)]
     df = df.reset_index(drop=True)
-    df['longitude'] = df['longitude'].apply(lambda x: round(x, 4))
-    df['latitude'] = df['latitude'].apply(lambda x: round(x, 4))
+    """round by 3"""
+    df['longitude'] = df['longitude'].apply(lambda x: round(x,3))
+    df['latitude'] = df['latitude'].apply(lambda x: round(x,3))
 
     return df
 
