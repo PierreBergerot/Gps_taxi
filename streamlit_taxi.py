@@ -28,7 +28,6 @@ def read_clean_data():
     df = df.reset_index(drop=True)
     df['diff'] = df['diff'].apply(lambda x: x * 10)
     df['diff'] = df['diff'].apply(lambda x: round(x, 0))
-    df['diff'] = df['diff'].apply(lambda x: pd.Timedelta(seconds=x))
     df = df.reset_index(drop=True)
     return df
     
