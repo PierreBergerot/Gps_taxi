@@ -26,12 +26,7 @@ def read_clean_data():
     df = df.reset_index(drop=True)
 
     return df
-def add_reverse_df(df):
-    df_reverse = df.copy()
-    df_reverse.columns = ['longitude', 'latitude']
-    df = pd.concat([df, df_reverse], axis=0)
-    return df
-
+    
 def connect_two_point(df):
     df_connect = df[['longitude', 'latitude']].copy()
     df_connect.columns = ['longitude_a', 'latitude_a']
@@ -172,7 +167,7 @@ def main():
         end = str(end)
         button = st.button("calculer le trajet le plus rapide")
         if button:
-            df_reverse = add_reverse_df(df)
+            st.write(df)
             df_connect = connect_two_point(df_reverse)
             time, df_path = all_thing(df_connect,start,end)
             st.write("le temps de trajet est de",time)
