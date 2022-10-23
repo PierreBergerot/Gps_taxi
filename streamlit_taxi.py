@@ -140,7 +140,7 @@ def usable_data(df_path,df_connect):
 
 def all_thing(df_connect,start,end):
     adjacency_list = create_adjency_list(df_connect)
-    print(adjacency_list)
+    st.write(adjacency_list)
     path = find_path(adjacency_list, start, end)
     df_path = to_df(path)
     df_usable = usable_data(df_path,df_connect)
