@@ -14,6 +14,9 @@ def read_clean_data():
         df = pd.concat([df, df_15], axis=0)
     df = df.drop_duplicates()
     df['date time']=pd.to_datetime(df['date time'], format='%Y-%m-%d %H:%M:%S')
+    df['longitude'] = df['longitude'].round(3)
+    df['latitude'] = df['latitude'].round(3)
+    df = df.sort_values(by=['taxi id','date time'])
     df = df.reset_index(drop=True)
     df = df[(df['longitude']>=116.215140) & (df['longitude']<=116.586700) & (df['latitude']>=39.757610) & (df['latitude']<=40.079850)]
     df = df.reset_index(drop=True)
@@ -21,9 +24,6 @@ def read_clean_data():
     df = df[df['diff']>=pd.Timedelta(seconds=1)]
     df = df[df['diff']<=pd.Timedelta(minutes=5)]
     df = df.reset_index(drop=True)
-    """round by 3"""
-    df['longitude'] = df['longitude'].apply(lambda x: round(x,3))
-    df['latitude'] = df['latitude'].apply(lambda x: round(x,3))
 
     return df
 
