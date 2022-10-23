@@ -171,7 +171,7 @@ def main():
     else:
         st.write("nous allons vous montrer le trajet le plus rapide entre deux points")
         df_connect = connect_two_point(df)
-        fig = plotly(df)
+        fig = plotly(df_connect)
         st.plotly_chart(fig)
     
         st.write("veuillez selectionner deux points")
