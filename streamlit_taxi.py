@@ -125,6 +125,7 @@ def all_thing(df_connect,start,end):
     time = df_usable['diff'].sum()
     return time, df_path
 
+@st.cache
 def plotly(df):
     df = df.sample(frac=0.25)
     fig = px.line_mapbox(df, lat="latitude", lon="longitude", zoom=12, height=1000)
