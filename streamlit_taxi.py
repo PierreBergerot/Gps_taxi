@@ -27,7 +27,6 @@ def read_clean_data():
     df = df.groupby(['longitude', 'latitude'])['diff'].mean().reset_index()
     df = df.reset_index(drop=True)
     df['diff'] = df['diff'].apply(lambda x: x * 10)
-    df['diff'] = df['diff'].apply(lambda x: round(x, 0))
     df = df.reset_index(drop=True)
     return df
     
