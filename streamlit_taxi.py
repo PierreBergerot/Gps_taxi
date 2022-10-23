@@ -139,6 +139,8 @@ def create_callback_in_a_map(fig):
             latitude = scatter.lat[point_ind]
             st.write('longitude: ', longitude)
             st.write('latitude: ', latitude)
+    scatter.on_click(callback)
+    
     
 @st.cache
 def heatmap(df):
