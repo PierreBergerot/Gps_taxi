@@ -194,11 +194,9 @@ def main():
         end = str(end)
         button = st.button("calculer le trajet le plus rapide")
         if button:
-            df_all_path = add_reverse(df)
-            reduce_df_all_path = reduce_df(df_all_path,float(start_lat),float(start_lon),float(end_lat),float(end_lon))
+            reduce_df_all_path = reduce_df(df,float(start_lat),float(start_lon),float(end_lat),float(end_lon))
             df_connect = connect_two_point(reduce_df_all_path)
             time, df_path = all_thing(df_connect,start,end)
             st.write("le temps de trajet est de",time)
-            st.map(reduce_df_all_path)
             st.map(df_path)
 main()
