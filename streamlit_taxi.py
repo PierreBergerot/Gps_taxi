@@ -27,6 +27,13 @@ def read_clean_data():
 
     return df
 
+def switch_lon_lat_df(df):
+    df1 = df.copy()
+    df1['longitude'], df1['latitude'] = df1['latitude'], df1['longitude']
+    df = pd.concat([df, df1], axis=0)
+    df = df.reset_index(drop=True)
+    return df
+
 def connect_two_point(df):
     df_connect = df[['longitude', 'latitude']].copy()
     df_connect.columns = ['longitude_a', 'latitude_a']
@@ -167,8 +174,8 @@ def main():
         end = str(end)
         button = st.button("calculer le trajet le plus rapide")
         if button:
-            print(df)
-            df_connect = connect_two_point(df)
+            df_all = switch_lon_lat_df(df)
+            df_connect = connect_two_point(df_all)
             time, df_path = all_thing(df_connect,start,end)
             st.write("le temps de trajet est de",time)
             st.map(df_path)
