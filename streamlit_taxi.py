@@ -133,14 +133,16 @@ def plotly(df):
 def create_callback_in_a_map(fig):
     scatter = fig.data[0]
     def callback(trace, points, selector):
-        if points.point_inds:
-            point_ind = points.point_inds[0]
-            longitude = scatter.lon[point_ind]
-            latitude = scatter.lat[point_ind]
-            st.write('longitude: ', longitude)
-            st.write('latitude: ', latitude)
+        for i in points.point_inds:
+            with fig.batch_update():
+                fig.add_trace(go.Scattermapbox(
+                    mode="markers",
+                    lon=[scatter.lon[i]],
+                    lat=[scatter.lat[i]],
+                    marker={'size': 20, 'color': 'red'},
+                    ))          
     scatter.on_click(callback)
-    
+
     
 @st.cache
 def heatmap(df):
