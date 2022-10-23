@@ -32,6 +32,21 @@ def add_reverse(df):
     df_all_path = df_all_path.reset_index(drop=True)
     return df_all_path
 
+def reduce_df(df,start_lat,start_lon,end_lat,end_lon):
+    if start_lat>end_lat:
+        if start_lon>end_lon:
+            df = df[(df['latitude']>=(end_lat - 0.001)) & (df['latitude']<=(start_lat + 0.001)) & (df['longitude']>=(end_lon - 0.001)) & (df['longitude']<=(start_lon + 0.001))]
+        else:
+            df = df[(df['latitude']>=(end_lat - 0.001)) & (df['latitude']<=(start_lat + 0.001)) & (df['longitude']>=(start_lon - 0.001)) & (df['longitude']<=(end_lon + 0.001))]
+    else:
+        if start_lon>end_lon:
+            df = df[(df['latitude']>=(start_lat - 0.001)) & (df['latitude']<=(end_lat + 0.001)) & (df['longitude']>=(end_lon - 0.001)) & (df['longitude']<=(start_lon + 0.001))]
+        else:
+            df = df[(df['latitude']>=(start_lat - 0.001)) & (df['latitude']<=(end_lat + 0.001)) & (df['longitude']>=(start_lon - 0.001)) & (df['longitude']<=(end_lon + 0.001))]
+    return df
+
+
+
 def connect_two_point(df):
     df_connect = df[['longitude', 'latitude']].copy()
     df_connect.columns = ['longitude_a', 'latitude_a']
@@ -175,7 +190,8 @@ def main():
             df_all_path = add_reverse(df)
             st.write(len(df))
             st.write(len(df_all_path))
-            df_connect = connect_two_point(df_all_path)
+            reduce_df_all_path = reduce_df(df,start_lat,start_lon,end_lat,end_lon)
+            df_connect = connect_two_point(reduce_df_all_path)
             time, df_path = all_thing(df_connect,'116.3991 39.85997',end)
             st.write("le temps de trajet est de",time)
             st.map(df_path)
