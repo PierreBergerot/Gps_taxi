@@ -133,9 +133,10 @@ def all_thing(df_connect,start,end):
     return time, df_path
 
 @st.cache
-def plotly(df):
+def plotly(df_connect):
     df = df.sample(frac=0.25)
-    fig = px.line_mapbox(df, lat="latitude", lon="longitude", zoom=12, height=1000)
+    fig = px.line_mapbox(df, lat="latitude_a", lon="longitude_a", hover_name="point_a", hover_data=["point_b"],
+                         color_discrete_sequence=["fuchsia"], zoom=10, height=300)
     fig.update_layout(mapbox_style="stamen-terrain")
     fig.update_layout(margin={"r":0,"t":0,"l":0,"b":0})
     fig.update_traces(mode='markers')
@@ -164,7 +165,9 @@ def main():
         st.plotly_chart(heatmap(df))
     else:
         st.write("nous allons vous montrer le trajet le plus rapide entre deux points")
-        fig = plotly(df)
+        df_all = switch_lon_lat_df(df)
+        df_connect = connect_two_point(df_all)
+        fig = plotly(df_connect)
         st.plotly_chart(fig)
     
         st.write("veuillez selectionner deux points")
@@ -178,8 +181,6 @@ def main():
         end = str(end)
         button = st.button("calculer le trajet le plus rapide")
         if button:
-            df_all = switch_lon_lat_df(df)
-            df_connect = connect_two_point(df_all)
             time, df_path = all_thing(df_connect,start,end)
             st.write("le temps de trajet est de",time)
             st.map(df_path)
