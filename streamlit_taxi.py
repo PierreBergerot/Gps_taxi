@@ -143,7 +143,6 @@ def all_thing(df_connect,start,end):
     st.write(adjacency_list)
     path = find_path(adjacency_list, start, end)
     df_path = to_df(path)
-    st.write(df_path)
     df_usable = usable_data(df_path,df_connect)
     time = df_usable['diff'].sum()
     return time, df_path
