@@ -21,38 +21,7 @@ def read_clean_data():
     df = df[df['diff']>=pd.Timedelta(seconds=1)]
     df = df[df['diff']<=pd.Timedelta(minutes=5)]
     df = df.reset_index(drop=True)
-    df['longitude'] = df['longitude'].apply(lambda x: round(x, 4))
-    df['latitude'] = df['latitude'].apply(lambda x: round(x, 4))
-    df = df.reset_index(drop=True)
-    df = df.groupby(['longitude', 'latitude'])['diff'].mean().reset_index()
-    df = df.reset_index(drop=True)
-    df['diff'] = df['diff'].apply(lambda x: x * 10)
-    df = df.reset_index(drop=True)
     return df
-    
-def add_reverse(df):
-    df_reverse = pd.DataFrame(columns=['latitude', 'longitude', 'diff'])
-    df_reverse['latitude'] = df['longitude']
-    df_reverse['longitude'] = df['latitude']
-    df_reverse['diff'] = df['diff']
-    df_all_path = pd.concat([df, df_reverse])
-    df_all_path = df_all_path.reset_index(drop=True)
-    return df_all_path
-
-def reduce_df(df,start_lat,start_lon,end_lat,end_lon):
-    if start_lat>end_lat:
-        if start_lon>end_lon:
-            df = df[(df['latitude']>=(end_lat - 0.03)) & (df['latitude']<=(start_lat + 0.03)) & (df['longitude']>=(end_lon - 0.03)) & (df['longitude']<=(start_lon + 0.03))]
-        else:
-            df = df[(df['latitude']>=(end_lat - 0.03)) & (df['latitude']<=(start_lat + 0.03)) & (df['longitude']>=(start_lon - 0.03)) & (df['longitude']<=(end_lon + 0.03))]
-    else:
-        if start_lon>end_lon:
-            df = df[(df['latitude']>=(start_lat - 0.03)) & (df['latitude']<=(end_lat + 0.03)) & (df['longitude']>=(end_lon - 0.03)) & (df['longitude']<=(start_lon + 0.03))]
-        else:
-            df = df[(df['latitude']>=(start_lat - 0.03)) & (df['latitude']<=(end_lat + 0.03)) & (df['longitude']>=(start_lon - 0.03)) & (df['longitude']<=(end_lon + 0.03))]
-    return df
-
-
 
 def connect_two_point(df):
     df_connect = df[['longitude', 'latitude']].copy()
@@ -75,6 +44,7 @@ def create_adjency_list(df_adjency):
         if row['point_a'] not in adjacency_list:
             adjacency_list[row['point_a']] = []
         adjacency_list[row['point_a']].append((row['point_b'], row['diff'].total_seconds()))
+
     return adjacency_list
 
 def find_path(adjacency_list, start, end):
@@ -101,6 +71,7 @@ def find_path(adjacency_list, start, end):
                     came_from[next[0]] = current
 
         return came_from, cost_so_far
+    
     came_from, cost_so_far = a_star(adjacency_list, start, end)
     path = []
     current = end
@@ -140,7 +111,6 @@ def usable_data(df_path,df_connect):
 
 def all_thing(df_connect,start,end):
     adjacency_list = create_adjency_list(df_connect)
-    st.write(adjacency_list)
     path = find_path(adjacency_list, start, end)
     df_path = to_df(path)
     df_usable = usable_data(df_path,df_connect)
@@ -157,7 +127,6 @@ def plotly(df):
     fig.update_layout(clickmode='event+select')
     return fig
 
-    
 @st.cache
 def heatmap(df):
     df = df.sample(frac=0.50)
@@ -194,8 +163,7 @@ def main():
         end = str(end)
         button = st.button("calculer le trajet le plus rapide")
         if button:
-            reduce_df_all_path = reduce_df(df,float(start_lat),float(start_lon),float(end_lat),float(end_lon))
-            df_connect = connect_two_point(reduce_df_all_path)
+            df_connect = connect_two_point(df)
             time, df_path = all_thing(df_connect,start,end)
             st.write("le temps de trajet est de",time)
             st.map(df_path)
