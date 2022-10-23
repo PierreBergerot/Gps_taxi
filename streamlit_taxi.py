@@ -21,6 +21,15 @@ def read_clean_data():
     df = df[df['diff']>=pd.Timedelta(seconds=1)]
     df = df[df['diff']<=pd.Timedelta(minutes=5)]
     df = df.reset_index(drop=True)
+    df['longitude'] = df['longitude'].apply(lambda x: round(x, 4))
+    df['latitude'] = df['latitude'].apply(lambda x: round(x, 4))
+    df = df.reset_index(drop=True)
+    df = df.groupby(['longitude', 'latitude'])['diff'].mean().reset_index()
+    df = df.reset_index(drop=True)
+    df['diff'] = df['diff'].apply(lambda x: x * 10)
+    df['diff'] = df['diff'].apply(lambda x: round(x, 0))
+    df['diff'] = df['diff'].apply(lambda x: pd.Timedelta(seconds=x))
+    df = df.reset_index(drop=True)
     return df
     
 def add_reverse(df):
