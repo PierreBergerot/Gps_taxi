@@ -42,14 +42,14 @@ def add_reverse(df):
 def reduce_df(df,start_lat,start_lon,end_lat,end_lon):
     if start_lat>end_lat:
         if start_lon>end_lon:
-            df = df[(df['latitude']>=(end_lat - 0.1)) & (df['latitude']<=(start_lat + 0.1)) & (df['longitude']>=(end_lon - 0.1)) & (df['longitude']<=(start_lon + 0.1))]
+            df = df[(df['latitude']>=(end_lat - 0.03)) & (df['latitude']<=(start_lat + 0.03)) & (df['longitude']>=(end_lon - 0.03)) & (df['longitude']<=(start_lon + 0.03))]
         else:
-            df = df[(df['latitude']>=(end_lat - 0.1)) & (df['latitude']<=(start_lat + 0.1)) & (df['longitude']>=(start_lon - 0.1)) & (df['longitude']<=(end_lon + 0.1))]
+            df = df[(df['latitude']>=(end_lat - 0.03)) & (df['latitude']<=(start_lat + 0.03)) & (df['longitude']>=(start_lon - 0.03)) & (df['longitude']<=(end_lon + 0.03))]
     else:
         if start_lon>end_lon:
-            df = df[(df['latitude']>=(start_lat - 0.1)) & (df['latitude']<=(end_lat + 0.1)) & (df['longitude']>=(end_lon - 0.1)) & (df['longitude']<=(start_lon + 0.1))]
+            df = df[(df['latitude']>=(start_lat - 0.03)) & (df['latitude']<=(end_lat + 0.03)) & (df['longitude']>=(end_lon - 0.03)) & (df['longitude']<=(start_lon + 0.03))]
         else:
-            df = df[(df['latitude']>=(start_lat - 0.1)) & (df['latitude']<=(end_lat + 0.1)) & (df['longitude']>=(start_lon - 0.1)) & (df['longitude']<=(end_lon + 0.1))]
+            df = df[(df['latitude']>=(start_lat - 0.03)) & (df['latitude']<=(end_lat + 0.03)) & (df['longitude']>=(start_lon - 0.03)) & (df['longitude']<=(end_lon + 0.03))]
     return df
 
 
