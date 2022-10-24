@@ -155,6 +155,7 @@ def count(df):
     df['count'] = df.groupby(['longitude', 'latitude'])['longitude'].transform('count')
     df = df.drop_duplicates(subset=['longitude', 'latitude'])
     df = df.reset_index(drop=True)
+    return df
 
 @st.cache
 def heatmap(df):
