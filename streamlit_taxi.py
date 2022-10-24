@@ -25,7 +25,7 @@ def read_clean_data():
     df = df[df['diff']>=pd.Timedelta(seconds=0)]
     df = df.reset_index(drop=True)
 
-    return df_glob,df
+    return df
 
 def connect_two_point(df):
     df_connect = df[['longitude', 'latitude']].copy()
