@@ -181,13 +181,12 @@ def main():
         st.plotly_chart(fig)
     
         st.write("select the two points")
-
-        start_lat = st.text_input("start lat point")
-        start_lon = st.text_input("start long point")
+        start_lat = st.sidebar.text_input("start lat point")
+        start_lon = st.sidebar.text_input("start long point")
         start = start_lon + ' ' + start_lat
         start = str(start)
-        end_lat = st.text_input("end lat point")
-        end_lon = st.text_input("end long point")
+        end_lat = st.sidebar.text_input("end lat point")
+        end_lon = st.sidebar.text_input("end long point")
         end = end_lon + ' ' + end_lat
         end = str(end)
         button = st.button("Find the path")
