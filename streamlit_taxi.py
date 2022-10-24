@@ -24,7 +24,6 @@ def read_clean_data():
     df['diff'] = df['date time'].diff()
     df = df[df['diff']>=pd.Timedelta(seconds=0)]
     df = df.reset_index(drop=True)
-
     return df
 
 def connect_two_point(df):
@@ -152,10 +151,19 @@ def plotly(df):
     fig.update_layout(clickmode='event+select')
     return fig
 
+def count(df):
+    df['count'] = df.groupby(['latitude_a', 'longitude_a'])['latitude_a'].transform('count')
+    df = df.drop_duplicates()
+    df = df.reset_index(drop=True)
+    return df
+
 @st.cache
 def heatmap(df):
     df = df.sample(frac=0.50)
-    fig = px.density_mapbox(df, lat='latitude', lon='longitude', z='diff', radius=10,zoom=12, mapbox_style="stamen-terrain")
+    df = count(df)
+    fig = px.density_mapbox(df, lat='latitude_a', lon='longitude_a', z='count', radius=10,
+                            center=dict(lat=40.7128, lon=-74.0060), zoom=12,
+                            mapbox_style="stamen-terrain")
     fig.update_layout(margin={"r":0,"t":0,"l":0,"b":0})
     return fig
 
