@@ -16,6 +16,7 @@ def read_clean_data():
     df_glob = df_glob.drop_duplicates()
     df_glob['date time']=pd.to_datetime(df_glob['date time'], format='%Y-%m-%d %H:%M:%S')
     df = df_glob.copy()
+    df_glob['diff'] = df_glob['date time'].diff()
     df['longitude'] = df['longitude'].round(3)
     df['latitude'] = df['latitude'].round(3)
     df = df.sort_values(by=['taxi id','date time'])
