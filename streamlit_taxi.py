@@ -161,7 +161,7 @@ def count(df):
 def heatmap(df):
     df = df.sample(frac=0.50)
     df = count(df)
-    fig = px.density_mapbox(df, lat='latitude_a', lon='longitude_a', z='count', radius=10,
+    fig = px.density_mapbox(df, lat='latitude', lon='longitude', z='count', radius=10,
                             center=dict(lat=40.7128, lon=-74.0060), zoom=12,
                             mapbox_style="stamen-terrain")
     fig.update_layout(margin={"r":0,"t":0,"l":0,"b":0})
