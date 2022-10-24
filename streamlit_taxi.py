@@ -171,7 +171,7 @@ def main():
     df_glob, df = read_clean_data()
 
     Option =slider_checkbox()
-    if Option == 'densite':
+    if Option == 'density':
         st.write("Density")
         st.plotly_chart(heatmap(df_glob))
     else:
