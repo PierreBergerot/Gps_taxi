@@ -171,7 +171,7 @@ def main():
     Option =slider_checkbox()
     if Option == 'density':
         st.write("Density")
-        st.plotly_chart(heatmap(df_glob))
+        st.plotly_chart(heatmap(df))
     else:
         st.write("We will show you the path between 2 points")
         df_connect = connect_two_point(df)
