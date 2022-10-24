@@ -14,11 +14,7 @@ def read_clean_data():
         df_15 = pd.read_csv('taxi_log_2008_by_id/'+str(taxi_id[i])+'.txt', names=colum_names)
         df_glob = pd.concat([df_glob, df_15], axis=0)
     df_glob = df_glob.drop_duplicates()
-    df_glob['date time']=pd.to_datetime(df_glob['date time'], format='%Y-%m-%d %H:%M:%S')
-    df = df_glob.copy()
-    df_glob['longitude'] = df_glob['longitude'].round(4)
-    df_glob['latitude'] = df_glob['latitude'].round(4)
-    df_glob['diff'] = df_glob['date time'].diff()
+    df['date time']=pd.to_datetime(df['date time'], format='%Y-%m-%d %H:%M:%S')
     df['longitude'] = df['longitude'].round(3)
     df['latitude'] = df['latitude'].round(3)
     df = df.sort_values(by=['taxi id','date time'])
@@ -170,7 +166,7 @@ def slider_checkbox():
     return option
 
 def main():
-    df_glob, df = read_clean_data()
+    df = read_clean_data()
 
     Option =slider_checkbox()
     if Option == 'density':
