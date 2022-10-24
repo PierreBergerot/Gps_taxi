@@ -152,7 +152,7 @@ def plotly(df):
     return fig
 
 def count(df):
-    df['count'] = df.groupby(['latitude_a', 'longitude_a'])['latitude_a'].transform('count')
+    df['count'] = df.groupby(['latitude', 'longitude'])['latitude', 'longitude'].transform('count')
     df = df.drop_duplicates()
     df = df.reset_index(drop=True)
     return df
