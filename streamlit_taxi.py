@@ -193,7 +193,7 @@ def main():
         end_lon = st.sidebar.text_input("end long point")
         end = end_lon + ' ' + end_lat
         end = str(end)
-        button = st.button("Find the path")
+        button = st.sidebar.button("Find the path")
         if button:
             time, df_path = all_thing(df_connect,start,end)
             st.write("the time for the fare",time)
