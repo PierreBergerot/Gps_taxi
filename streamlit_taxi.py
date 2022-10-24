@@ -2,6 +2,7 @@ import streamlit as st
 import pandas as pd
 import heapq
 import plotly.express as px
+import datetime
 
 @st.cache
 def read_clean_data():
@@ -137,6 +138,7 @@ def all_thing(df_connect,start,end):
     df_path = to_df(path)
     df_usable = usable_data(df_path,df_connect)
     time = df_usable['diff'].sum()
+    time = datetime.timedelta(seconds=time)
     return time, df_path
 
 @st.cache
@@ -177,6 +179,7 @@ def main():
         st.plotly_chart(fig)
     
         st.write("veuillez selectionner deux points")
+        """input on the slide bar"""
         start_lat = st.text_input("start lat point")
         start_lon = st.text_input("start long point")
         start = start_lon + ' ' + start_lat
