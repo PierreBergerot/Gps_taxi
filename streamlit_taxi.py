@@ -184,7 +184,7 @@ def main():
         fig = plotly(df_connect)
         st.plotly_chart(fig)
     
-        st.write("select the two points")
+        st.sidebar.write("select the two points")
         start_lat = st.sidebar.text_input("start lat point")
         start_lon = st.sidebar.text_input("start long point")
         start = start_lon + ' ' + start_lat
