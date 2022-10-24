@@ -9,12 +9,12 @@ def read_clean_data():
     colum_names=['taxi id', 'date time', 'longitude', 'latitude']
 
     taxi_id = [6275,3015,3557,3579,8179]
-    df = pd.DataFrame(columns=colum_names)
+    df_glob = pd.DataFrame(columns=colum_names)
     for i in range(len(taxi_id)):
         df_15 = pd.read_csv('taxi_log_2008_by_id/'+str(taxi_id[i])+'.txt', names=colum_names)
-        df = pd.concat([df, df_15], axis=0)
-    df = df.drop_duplicates()
-    df['date time']=pd.to_datetime(df['date time'], format='%Y-%m-%d %H:%M:%S')
+        df_glob = pd.concat([df_glob, df_15], axis=0)
+    df_glob = df_glob.drop_duplicates()
+    df_glob['date time']=pd.to_datetime(df_glob['date time'], format='%Y-%m-%d %H:%M:%S')
     df['longitude'] = df['longitude'].round(3)
     df['latitude'] = df['latitude'].round(3)
     df = df.sort_values(by=['taxi id','date time'])
@@ -25,7 +25,7 @@ def read_clean_data():
     df = df[df['diff']>=pd.Timedelta(seconds=0)]
     df = df.reset_index(drop=True)
 
-    return df
+    return df_glob,df
 
 def connect_two_point(df):
     df_connect = df[['longitude', 'latitude']].copy()
@@ -162,24 +162,24 @@ def heatmap(df):
 def slider_checkbox():
     option = st.sidebar.selectbox(
         'Choose between 2 option',
-        ('densite', 'GPS'))
+        ('density', 'GPS'))
     return option
 
 def main():
-    df = read_clean_data()
+    df_glob, df = read_clean_data()
 
     Option =slider_checkbox()
     if Option == 'densite':
-        st.write("Densite")
-        st.plotly_chart(heatmap(df))
+        st.write("Density")
+        st.plotly_chart(heatmap(df_glob))
     else:
-        st.write("nous allons vous montrer le trajet le plus rapide entre deux points")
+        st.write("We will show you the path between 2 points")
         df_connect = connect_two_point(df)
         fig = plotly(df_connect)
         st.plotly_chart(fig)
     
-        st.write("veuillez selectionner deux points")
-        """input on the slide bar"""
+        st.write("select the two points")
+
         start_lat = st.text_input("start lat point")
         start_lon = st.text_input("start long point")
         start = start_lon + ' ' + start_lat
@@ -188,9 +188,9 @@ def main():
         end_lon = st.text_input("end long point")
         end = end_lon + ' ' + end_lat
         end = str(end)
-        button = st.button("calculer le trajet le plus rapide")
+        button = st.button("Find the path")
         if button:
             time, df_path = all_thing(df_connect,start,end)
-            st.write("le temps de trajet est de",time)
+            st.write("the time for the fare",time)
             st.map(df_path)
 main()
