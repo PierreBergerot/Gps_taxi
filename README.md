@@ -17,4 +17,5 @@ This dataset give the coordinates each second of the ride. Execpt when the car i
 
 This code is coposed in several part :
   
-  - the body structure in the main, it use the streamlit library to display all the 
+  - the body structure in the main, it use the streamlit library to display all the input and the map
+  - function to 
