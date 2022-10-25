@@ -138,6 +138,7 @@ def all_thing(df_connect,start,end):
     df_usable = usable_data(df_path,df_connect)
     time = df_usable['diff'].sum()
     time = datetime.timedelta(seconds=time)
+    time = time * 1.5
     return time, df_path
 
 @st.cache
