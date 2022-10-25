@@ -149,6 +149,15 @@ def plotly(df):
     fig.update_layout(margin={"r":0,"t":0,"l":0,"b":0})
     fig.update_traces(mode='markers')
     fig.update_layout(clickmode='event+select')
+    """displaty info on click on map"""
+    fig.update_layout(
+        hovermode='closest',
+        hoverlabel=dict(
+            bgcolor="white",
+            font_size=16,
+            font_family="Rockwell"
+        )
+    )
     return fig
 
 def count(df):
